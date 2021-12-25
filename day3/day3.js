@@ -67,4 +67,77 @@ part1 = () => {
     console.log(`With a total power consumption of: ${theGamma * theEpsilon}`);
 }
 
-part1();
+// part1();
+
+function filterMatrix(aMatrix, columnToReview, mostOrLeastCommon) {
+    let countOfCero = 0;
+    let countOfOne = 0;
+
+    // Vertical revision
+    for (let y = 0; y < aMatrix.length; y++) {
+        if (aMatrix[y][columnToReview] == 0)
+            countOfCero++;
+        else
+            countOfOne++;
+    }
+
+    // Detemine the number that should be used for the filtering
+    let numberToRemain = 0;
+    if (mostOrLeastCommon == "most"){
+        if (countOfOne > countOfCero || countOfOne == countOfCero)
+            numberToRemain = 1
+        else
+            numberToRemain = 0;
+    }
+    else{
+        if (countOfOne > countOfCero || countOfOne == countOfCero)
+            numberToRemain = 0
+        else
+            numberToRemain = 1;
+    }
+
+    // Create a brand new matrix only with the rows matching the filtering pattern
+    let aNewMatrix = [];
+    aMatrix.forEach(aMatrixRow => {
+        if (aMatrixRow[columnToReview] == numberToRemain)
+            aNewMatrix.push(aMatrixRow);
+    });
+
+    return aNewMatrix;
+}
+
+part2 = () => {
+    
+
+    
+
+    // Reduce the matrix to get the Oxigen Generator
+    let columnToReview = 0;
+    let theOxigenGeneratorOptions = theMatrix;
+    while (theOxigenGeneratorOptions.length > 1){
+        theOxigenGeneratorOptions = filterMatrix(theOxigenGeneratorOptions, columnToReview, "most");
+        columnToReview++;
+    }
+
+    // Repeat the process for the CO2 scrubber
+    columnToReview = 0;
+    let theCO2scrubberOptions = theMatrix;
+    while (theCO2scrubberOptions.length > 1){
+        theCO2scrubberOptions = filterMatrix(theCO2scrubberOptions, columnToReview, "least");
+        columnToReview++;
+    }
+
+    // Get the final results and their decimal representation
+    let theOxigenGeneratorBinary = theOxigenGeneratorOptions[0];
+    let theCO2scrubberBinary = theCO2scrubberOptions[0];
+    
+    let theOxigenGenerator = getDecimalFromBinary(theOxigenGeneratorBinary);
+    let theCO2scrubber = getDecimalFromBinary(theCO2scrubberBinary);
+    
+    // Print the results
+    console.log(`The value for oxygen generator rating is: ${theOxigenGeneratorBinary} which corresponds to ${theOxigenGenerator}`);
+    console.log(`The value for CO2 scrubber rating is: ${theCO2scrubberBinary} which corresponds to ${theCO2scrubber}`);
+    console.log(`With a total life support rating of: ${theOxigenGenerator * theCO2scrubber}`);
+}
+
+part2();
