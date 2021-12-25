@@ -67,7 +67,7 @@ part1 = () => {
     console.log(`With a total power consumption of: ${theGamma * theEpsilon}`);
 }
 
-// part1();
+part1();
 
 function filterMatrix(aMatrix, columnToReview, mostOrLeastCommon) {
     let countOfCero = 0;
@@ -83,13 +83,13 @@ function filterMatrix(aMatrix, columnToReview, mostOrLeastCommon) {
 
     // Detemine the number that should be used for the filtering
     let numberToRemain = 0;
-    if (mostOrLeastCommon == "most"){
+    if (mostOrLeastCommon == "most") {
         if (countOfOne > countOfCero || countOfOne == countOfCero)
             numberToRemain = 1
         else
             numberToRemain = 0;
     }
-    else{
+    else {
         if (countOfOne > countOfCero || countOfOne == countOfCero)
             numberToRemain = 0
         else
@@ -107,14 +107,11 @@ function filterMatrix(aMatrix, columnToReview, mostOrLeastCommon) {
 }
 
 part2 = () => {
-    
-
-    
 
     // Reduce the matrix to get the Oxigen Generator
     let columnToReview = 0;
     let theOxigenGeneratorOptions = theMatrix;
-    while (theOxigenGeneratorOptions.length > 1){
+    while (theOxigenGeneratorOptions.length > 1) {
         theOxigenGeneratorOptions = filterMatrix(theOxigenGeneratorOptions, columnToReview, "most");
         columnToReview++;
     }
@@ -122,7 +119,7 @@ part2 = () => {
     // Repeat the process for the CO2 scrubber
     columnToReview = 0;
     let theCO2scrubberOptions = theMatrix;
-    while (theCO2scrubberOptions.length > 1){
+    while (theCO2scrubberOptions.length > 1) {
         theCO2scrubberOptions = filterMatrix(theCO2scrubberOptions, columnToReview, "least");
         columnToReview++;
     }
@@ -130,10 +127,10 @@ part2 = () => {
     // Get the final results and their decimal representation
     let theOxigenGeneratorBinary = theOxigenGeneratorOptions[0];
     let theCO2scrubberBinary = theCO2scrubberOptions[0];
-    
+
     let theOxigenGenerator = getDecimalFromBinary(theOxigenGeneratorBinary);
     let theCO2scrubber = getDecimalFromBinary(theCO2scrubberBinary);
-    
+
     // Print the results
     console.log(`The value for oxygen generator rating is: ${theOxigenGeneratorBinary} which corresponds to ${theOxigenGenerator}`);
     console.log(`The value for CO2 scrubber rating is: ${theCO2scrubberBinary} which corresponds to ${theCO2scrubber}`);
