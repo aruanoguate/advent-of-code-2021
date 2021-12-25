@@ -1,0 +1,22 @@
+{
+  "name": "day2",
+  "version": "1.0.0",
+  "description": "Advent of Code challenge day 2",
+  "main": "day2.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aruanoguate/advent-of-code-2021.git"
+  },
+  "author": "Alvaro Ruano",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aruanoguate/advent-of-code-2021/issues"
+  },
+  "homepage": "https://github.com/aruanoguate/advent-of-code-2021#readme",
+  "dependencies": {
+    "fs": "0.0.1-security"
+  }
+}
