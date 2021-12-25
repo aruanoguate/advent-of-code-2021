@@ -1,71 +1,70 @@
 // Read the file
 let fs = require('fs');
+const { get } = require('http');
 let allFile = fs.readFileSync('input.txt').toString().split("\n");
 
-// Create special 'instruction' object and respective array
-let instructions = [];
+// Create special 'theMatrix' object to visualize the input
+let theMatrix = [];
 allFile.forEach(line => {
-    let splitLine = line.split(" ");
-    let instruction = {
-        direction: splitLine[0],
-        distance: parseInt(splitLine[1])
-    };
-    instructions.push(instruction);
+    let theRowOfTheMatrix = [];
+    for (let index = 0; index < line.length; index++) {
+        let theBit = parseInt(line[index]);
+        theRowOfTheMatrix.push(theBit);
+    }
+    theMatrix.push(theRowOfTheMatrix);
 });
 
+function getDecimalFromBinary(binary) {
+    let multiplier = 1;
+    let decimalValue = 0;
+    for (let index = binary.length - 1; index >= 0; index--) {
+        decimalValue += binary[index] * multiplier;
+        multiplier *= 2;
+    }
+    return decimalValue;
+}
+
 part1 = () => {
-    horizontalPosition = 0;
-    depthPosition = 0;
+    let theGammaBinary = [];
+    let theEpsilonBinary = [];
 
-    instructions.forEach(instruction => {
-        switch (instruction.direction) {
-            case "forward":
-                horizontalPosition += instruction.distance;
-                break;
-            case "up":
-                depthPosition -= instruction.distance;
-                break;
-            case "down":
-                depthPosition += instruction.distance;
-                break;
+    // Horizontal revision
+    for (let x = 0; x < theMatrix[0].length; x++) {
+        let theGammaBit = 0;
+        let theEpsilonBit = 0;
+
+        let countOfCero = 0;
+        let countOfOne = 0;
+
+        // Vertical revision
+        for (let y = 0; y < theMatrix.length; y++) {
+            if (theMatrix[y][x] == 0)
+                countOfCero++;
+            else
+                countOfOne++;
         }
-    });
 
-    console.log(`The final position following Part1 instructions is:`);
-    console.log(`\tHorizontal: ${horizontalPosition}`);
-    console.log(`\tDepth: ${depthPosition}`);
-    console.log(`The final answer is: ${depthPosition * horizontalPosition}`);
-    console.log(`\n`);
+        // Review the most popular number
+        if (countOfCero > countOfOne) {
+            theGammaBit = 0;
+            theEpsilonBit = 1;
+        }
+        else {
+            theGammaBit = 1;
+            theEpsilonBit = 0;
+        }
+
+        // Adding to Gamma and Epsilon corresponding bit
+        theGammaBinary.push(theGammaBit);
+        theEpsilonBinary.push(theEpsilonBit);
+    }
+
+    let theGamma = getDecimalFromBinary(theGammaBinary);
+    let theEpsilon = getDecimalFromBinary(theEpsilonBinary);
+
+    console.log(`The value for Gamma is: ${theGammaBinary} which corresponds to ${theGamma}`);
+    console.log(`The value for Epsilon is: ${theEpsilonBinary} which corresponds to ${theEpsilon}`);
+    console.log(`With a total power consumption of: ${theGamma * theEpsilon}`);
 }
 
 part1();
-
-part2 = () => {
-    horizontalPosition = 0;
-    depthPosition = 0;
-    aim = 0;
-
-    instructions.forEach(instruction => {
-        switch (instruction.direction) {
-            case "forward":
-                horizontalPosition += instruction.distance;
-                depthPosition += instruction.distance * aim;
-                break;
-            case "up":
-                aim -= instruction.distance;
-                break;
-            case "down":
-                aim += instruction.distance;
-                break;
-        }
-    });
-
-    console.log(`The final position following Part2 instructions is:`);
-    console.log(`\tHorizontal: ${horizontalPosition}`);
-    console.log(`\tDepth: ${depthPosition}`);
-    console.log(`\tAim: ${aim}`);
-    console.log(`The final answer is: ${depthPosition * horizontalPosition}`);
-    console.log(`\n`);
-}
-
-part2();
